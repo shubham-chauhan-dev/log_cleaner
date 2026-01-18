@@ -12,5 +12,5 @@ gem "minitest", "~> 5.16"
 gem "rubocop", "~> 1.21"
 
 group :development, :test do
-  gem 'rspec-rails'
+  gem "rspec-rails"
 end

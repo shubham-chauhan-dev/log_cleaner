@@ -1,43 +1,59 @@
 # LogCleaner
 
-TODO: Delete this and the text below, and describe your gem
+Structured JSON logging for Ruby applications with automatic masking of sensitive fields like passwords, tokens, and authentication headers.
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/log_cleaner`. To experiment with that code, run `bin/console` for an interactive prompt.
+---
+
+## Features
+
+- Structured JSON logs for requests, controllers, and ActiveRecord
+- Automatic masking of sensitive fields (`password`, `token`, `authorization`)
+- Request middleware support for unique request IDs
+- Configurable mask fields
+- Rails-friendly, works in controllers and models
+
+---
 
 ## Installation
 
-TODO: Replace `UPDATE_WITH_YOUR_GEM_NAME_IMMEDIATELY_AFTER_RELEASE_TO_RUBYGEMS_ORG` with your gem name right after releasing it to RubyGems.org. Please do not do it earlier due to security reasons. Alternatively, replace this section with instructions to install your gem from git if you don't plan to release to RubyGems.org.
+Add this line to your application's Gemfile:
 
-Install the gem and add to the application's Gemfile by executing:
+```ruby
+gem "log_cleaner"
 
-```bash
-bundle add UPDATE_WITH_YOUR_GEM_NAME_IMMEDIATELY_AFTER_RELEASE_TO_RUBYGEMS_ORG
-```
+Then run:
 
-If bundler is not being used to manage dependencies, install the gem by executing:
+bundle install
 
-```bash
-gem install UPDATE_WITH_YOUR_GEM_NAME_IMMEDIATELY_AFTER_RELEASE_TO_RUBYGEMS_ORG
-```
+Or install the gem manually:
 
-## Usage
+gem install log_cleaner
 
-TODO: Write usage instructions here
+Usage
 
-## Development
+Configure masked fields
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake test` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+LogCleaner.configure do |config|
+  config.mask_fields = [:password, :token]
+end
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and the created tag, and push the `.gem` file to [rubygems.org](https://rubygems.org).
 
-## Contributing
+Log structured data
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/log_cleaner. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/[USERNAME]/log_cleaner/blob/master/CODE_OF_CONDUCT.md).
+LogCleaner.info(
+  event: "user_login",
+  email: "user@example.com",
+  password: "secret123",
+  token: "abcd1234"
+)
 
-## License
-
-The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
-
-## Code of Conduct
-
-Everyone interacting in the LogCleaner project's codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/log_cleaner/blob/master/CODE_OF_CONDUCT.md).
+Output:
+{
+  "timestamp": "2026-01-18T07:00:00Z",
+  "level": "info",
+  "request_id": "req-1234abcd",
+  "event": "user_login",
+  "email": "user@example.com",
+  "password": "[FILTERED]",
+  "token": "[FILTERED]"
+}
