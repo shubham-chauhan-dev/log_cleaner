@@ -1,37 +1,46 @@
 # frozen_string_literal: true
 
-require "json"
-require "securerandom"
-require "logger"
-require "time"
+# lib/log_cleaner.rb
 
-require_relative "log_cleaner/version"
-require_relative "log_cleaner/config"
-require_relative "log_cleaner/request_store"
-require_relative "log_cleaner/logger"
-require_relative "log_cleaner/request_middleware"
-require_relative "log_cleaner/request_logger"
-require_relative "log_cleaner/active_record_logger"
-require_relative "log_cleaner/engine"
-
-# LogCleaner is a Ruby library that provides structured logging
-# and request-level log management for applications.
+# = LogCleaner
 #
-# It allows you to:
-# - Automatically capture and clean logs for HTTP requests.
-# - Track logs per request using RequestStore.
-# - Integrate with ActiveRecord for database query logging.
-# - Configure logging behavior using a central configuration object.
+# LogCleaner provides structured JSON logging for Rails applications with
+# automatic masking of sensitive fields such as passwords, emails, and tokens.
 #
-# Example usage:
+# == Installation
 #
-#   LogCleaner.configure do |config|
-#     config.log_level = :info
-#     config.clean_sensitive_data = true
+#   gem "log_cleaner"
+#
+#   bundle install
+#
+# == Configuration
+#
+#   LogCleaner.configure do |c|
+#     c.mask_fields = [:password, :authenticity_token]
 #   end
 #
-# The library also provides middleware for Rack/Rails applications
-# to capture request-specific logs and a custom logger for structured output.
+# == Controller Logging
+#
+#   class ApplicationController < ActionController::Base
+#     include LogCleaner::RequestLogger
+#   end
+#
+# == ActiveRecord Logging
+#
+#   class User < ApplicationRecord
+#     include LogCleaner::ActiveRecordLogger
+#   end
+#
+# == Middleware
+#
+#   config.middleware.use LogCleaner::RequestMiddleware
+#
+# == Documentation
+#
+# * RubyDoc: https://rubydoc.info/gems/log_cleaner
+# * GitHub:  https://github.com/shubham-chauhan-dev/log_cleaner
+# * RubyGems: https://rubygems.org/gems/log_cleaner
+#
 module LogCleaner
   class << self
     attr_accessor :config
