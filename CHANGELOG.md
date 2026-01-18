@@ -1,6 +1,6 @@
 # Changelog
 
-## [0.1.1] - 2026-01-18
+## [0.1.2] - 2026-01-18
 
 ### Added
 - Structured JSON logging
