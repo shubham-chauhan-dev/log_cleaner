@@ -20,6 +20,7 @@ Gem::Specification.new do |spec|
   spec.metadata = {
     "homepage_uri" => spec.homepage,
     "source_code_uri" => "https://github.com/shubham-chauhan-dev/log_cleaner",
+    "documentation_uri" => "https://rubydoc.info/gems/log_cleaner",
     "changelog_uri" => "https://github.com/shubham-chauhan-dev/log_cleaner/blob/main/CHANGELOG.md",
     "rubygems_mfa_required" => "true"
   }
