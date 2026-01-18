@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    log_cleaner (0.1.0)
+    log_cleaner (0.1.2)
 
 GEM
   remote: https://rubygems.org/
